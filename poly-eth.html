@@ -30,11 +30,13 @@
 
     connectedCallback(){
       super.connectedCallback();
-      //this.restoreAddress('dfs ddssd  qwer qwer qwer qwer qwer q fsd fsd ', 'S3df3s#df!defdf')
+      // this.restoreAddress('dfs ddssd  qwer qwer qwer qwer qwer q fsd fsd ', 'S3df3s#df!defdf')
       // this.makeAddress('sDfsd907f@#sdf')
       // this.getPassphrase('sDfsd907f@#sdf')
       // changeVaultPassword(passphrase, oldVaultPassword, newVaultPassword)
-      this.changeVaultPassword('dfs ddssd  qwer qwer qwer qwer qwer q fsd fsd ', 'sDfsd907f@#sdf', 'NEWsDfsd907f@#sdf')
+      // this.changeVaultPassword('dfs ddssd  qwer qwer qwer qwer qwer q fsd fsd ', 'sDfsd907f@#sdf', 'NEWsDfsd907f@#sdf')
+      // this._getEthBallance('0x1488e397bc44c56d801a6e96217554a0e310ecb5')
+       this._ethFx(100, 'usd', 'X-ETH')
     }
     
     makeAddress(vaultPassword){
@@ -92,17 +94,69 @@
       })
     }
 
+
     transferEth(fromAddress, toAddress, ethAmount, metaData){
 
     }
 
-    _convertCurrency(symbolPair, amount){
+    _getEthBallance(address){
       return new Promise((resolve, reject) => {
-      // ETHxUSD
-      // USDxETH
+        this._gethConnect()
+        this.web3.eth.getBalance(address, (error, balance) => {
+          if(!error){
+            resolve(balance.toString(10))
+          } else {
+            reject()
+          }
+        })
       })
     }
-    _createEthTransatoin(){
+
+    _ethFx(amount, currencyCode, direction){
+      return new Promise((resolve, reject) => {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+            if (xmlhttp.status == 200) {
+              var price = JSON.parse(xmlhttp.responseText).price;
+              var fx
+              switch (currencyCode) {
+                case 'aud': fx = price.aud; break;
+                case 'brl': fx = price.brl; break;
+                case 'btc': fx = price.btc; break;
+                case 'cad': fx = price.cad; break;
+                case 'chf': fx = price.chf; break;
+                case 'cny': fx = price.cny; break;
+                case 'eur': fx = price.eur; break;
+                case 'gbp': fx = price.gbp; break;
+                case 'hkd': fx = price.hkd; break;
+                case 'idr': fx = price.idr; break;
+                case 'inr': fx = price.inr; break;
+                case 'jpy': fx = price.jpy; break;
+                case 'krw': fx = price.krw; break;
+                case 'mxn': fx = price.mxn; break;
+                case 'rub': fx = price.rub; break;
+                case 'usd': fx = price.usd;
+              }
+              if(direction == 'X-ETH'){
+                resolve(amount / fx)
+              } else {
+                resolve(amount * fx)
+              }
+            }
+            else if (xmlhttp.status == 400) {
+              reject('There was an error 400');
+            }
+            else {
+              reject('something else other than 200 was returned');
+            }
+          }
+        };
+      xmlhttp.open("GET", "https://coinmarketcap-nexuist.rhcloud.com/api/eth", true);
+      xmlhttp.send();
+      })
+    }
+    _createEthTransation(){
       return new Promise((resolve, reject) => {
       
       })
@@ -119,7 +173,7 @@
     }
     _compare(thisItem, thatItem){
       return new Promise((resolve, reject) => {
-        if(thisItem == thatItem){
+        if(thisItem === thatItem){
           resolve(true)
         } else {
           reject(false)

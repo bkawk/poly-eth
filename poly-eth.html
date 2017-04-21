@@ -41,7 +41,7 @@
       // this._getGasPrice()
       // this._createEthTransation('0x1488e397bc44c56d801a6e96217554a0e310ecb5', '0x1488e397bc44c56d801a6e96217554a0e310ecb5', 0.001, 'some data')
       // this._getEthAddress()
-      // this._byteLimit('this is more than 32 bit string length and will fail', 32)
+      this._byteLimit('this is more than 32 bit string length and will fail', 32)
     }
     
     makeAddress(vaultPassword){
@@ -132,7 +132,7 @@
         console.log(byteLength);
         if(byteLength > maxBytes){
           console.log('FAIL');
-          reject()
+          reject(Error("_byteLimit: The string was longer than maxBytes"))
         } else {
           console.log('PASS');
           resolve(true)
@@ -140,27 +140,35 @@
       })
     }
     _createEthTransation(nonce, toAddress, gasPrice, ethAmount, data){
-      return new Promise((resolve, reject) => {      
-        var rawTx = {
-            nonce : this.web3.toHex(nonce),
-            to : toAddress,
-            gasPrice : this.web3.toHex(gasPrice),
-            gasLimit : this.web3.toHex(21000),
-            value : this.web3.toHex(this.web3.toWei(ethAmount, 'ether')),
-            data : this.web3.toHex(data) || ""
+      return new Promise((resolve, reject) => {  
+        if(nonce && toAddress && gasPrice && ethAmount && data){    
+          var rawTx = {
+              nonce : this.web3.toHex(nonce),
+              to : toAddress,
+              gasPrice : this.web3.toHex(gasPrice),
+              gasLimit : this.web3.toHex(21000),
+              value : this.web3.toHex(this.web3.toWei(ethAmount, 'ether')),
+              data : this.web3.toHex(data) || ""
+          }
+          resolve(rawTx)
+        } else {
+          reject(Error("_createEthTransation: A value is missing"))
         }
-        resolve(rawTx)
       })
     }
     _signEthTransaction(rawTx, vaultPassphrase){
       return new Promise((resolve, reject) => {
-        var passphraseHex = this.web3.toHex(vaultPassphrase)
-        var privateKey = new Buffer(passphraseHex, 'hex')
-        var tx = new Tx(rawTx);
-        tx.sign(privateKey);
-        var serializedTx = tx.serialize();
-        console.log(serializedTx.toString('hex'));
-        resolve(serializedTx.toString('hex'))
+        if(rawTx && vaultPassphrase){
+          var passphraseHex = this.web3.toHex(vaultPassphrase)
+          var privateKey = new Buffer(passphraseHex, 'hex')
+          var tx = new Tx(rawTx);
+          tx.sign(privateKey);
+          var serializedTx = tx.serialize();
+          console.log(serializedTx.toString('hex'));
+          resolve(serializedTx.toString('hex'))
+        } else {
+          reject(Error("_signEthTransaction: A value is missing"))
+        }
       })
     }
     _sendEthTransaction(signedTx){

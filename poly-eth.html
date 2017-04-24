@@ -58,60 +58,66 @@
       })
     }
     restoreAddress(passphrase, password){
-      Promise.all([this._deleteLocalStorage(), this._strengthTest(password)])
-      .then((data) => {
-        return Promise.all([this._makeAddress(passphrase), this._encrypt(passphrase, password)])
-      })
-      .then((data) => {
-        this._saveLocalStorage(data[0], data[1])
-      })
-      .catch((err) => {
-        console.error(err)
+      return new Promise((resolve, reject) => {  
+        Promise.all([this._deleteLocalStorage(), this._strengthTest(password)])
+        .then((data) => {
+          return Promise.all([this._makeAddress(passphrase), this._encrypt(passphrase, password)])
+        })
+        .then((data) => {
+          resolve(this._saveLocalStorage(data[0], data[1]))
+        })
+        .catch((err) => {
+          reject(err)
+        })
       })
     }
     changePassword(passphrase, password, newPassword){
-      Promise.all([this._strengthTest(password), this._strengthTest(newPassword), this._checkLocalStorage('notNull')])
-      .then(() => {
-        return this._decrypt(password)
-      })
-      .then((vaultPassphrase) => {
-        return this._compare(passphrase, vaultPassphrase)
-      })
-      .then(() => {
-        return Promise.all([this._deleteLocalStorage(), this._makeAddress(passphrase), this._encrypt(passphrase, newPassword)])
-      })
-      .then((data) => {
-        this._saveLocalStorage(data[1], data[2])
-      })
-      .catch((err) => {
-        console.error(err)
+      return new Promise((resolve, reject) => {  
+        Promise.all([this._strengthTest(password), this._strengthTest(newPassword), this._checkLocalStorage('notNull')])
+        .then(() => {
+          return this._decrypt(password)
+        })
+        .then((vaultPassphrase) => {
+          return this._compare(passphrase, vaultPassphrase)
+        })
+        .then(() => {
+          return Promise.all([this._deleteLocalStorage(), this._makeAddress(passphrase), this._encrypt(passphrase, newPassword)])
+        })
+        .then((data) => {
+          resolve(this._saveLocalStorage(data[1], data[2]))
+        })
+        .catch((err) => {
+          reject(err)
+        })
       })
     }
     transferEther(toAddress, amount, password){
-      var fromAddress, nonce, gasPrice, vaultPassphrase
-      var fromAddress = JSON.parse(localStorage.getItem("vault")).ethAddress
-      Promise.all([this._getEthNonce(fromAddress), this._getGasPrice(), this._getEthAddress()])
-      .then((data) => {
-        nonce = data[0]
-        gasPrice = data[1]
-        fromAddress = data[2]
-        return Promise.all([this._checkLocalStorage('notNull'), this._strengthTest(password)])
-      })
-      .then(() => {
-        return this._decrypt(password)
-      })
-      .then((passphrase) => {
-        vaultPassphrase = passphrase
-        return this._createEthTransation(nonce, toAddress, gasPrice, amount)
-      })
-      .then((rawTx) => {
-        return this._signEthTransaction(rawTx, vaultPassphrase)
-      })
-      .then((signedTx) => {
-        this._sendEthTransaction(signedTx)
-      })
-      .catch((err) => {
-        console.error(err)
+      return new Promise((resolve, reject) => {  
+        var fromAddress, nonce, gasPrice, vaultPassphrase
+        var fromAddress = JSON.parse(localStorage.getItem("vault")).ethAddress
+        Promise.all([this._getEthNonce(fromAddress), this._getGasPrice(), this._getEthAddress()])
+        .then((data) => {
+          nonce = data[0]
+          gasPrice = data[1]
+          fromAddress = data[2]
+          return Promise.all([this._checkLocalStorage('notNull'), this._strengthTest(password)])
+        })
+        .then(() => {
+          return this._decrypt(password)
+        })
+        .then((passphrase) => {
+          vaultPassphrase = passphrase
+          return this._createEthTransation(nonce, toAddress, gasPrice, amount)
+        })
+        .then((rawTx) => {
+          return this._signEthTransaction(rawTx, vaultPassphrase)
+        })
+        .then((signedTx) => {
+          resolve(this._sendEthTransaction(signedTx))
+        })
+        .catch((err) => {
+          reject(err)
+        })
       })
     }
 

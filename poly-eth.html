@@ -33,24 +33,28 @@
     }
     
     makeAddress(password){
-      Promise.all([this._checkLocalStorage('isNull'), this._strengthTest(password), this._passphrase()])
-      .then((data) => {
-        return Promise.all([this._makeAddress(data[2]), this._encrypt(data[2], password)])
-      })
-      .then((data) => {
-        this._saveLocalStorage(data[0], data[1])
-      })
-      .catch((err) => {
-        console.error(err)
+      return new Promise((resolve, reject) => {   
+        Promise.all([this._checkLocalStorage('isNull'), this._strengthTest(password), this._passphrase()])
+        .then((data) => {
+          return Promise.all([this._makeAddress(data[2]), this._encrypt(data[2], password)])
+        })
+        .then((data) => {
+          resolve(this._saveLocalStorage(data[0], data[1]))
+        })
+        .catch((err) => {
+          reject(err)
+        })
       })
     }
     getPassphrase(password){
-      Promise.all([this._checkLocalStorage('notNull'), this._strengthTest(password)])
-      .then(() => {
-        return this._decrypt(password)
-      })
-      .catch((err) => {
-        console.error(err)
+      return new Promise((resolve, reject) => {  
+        Promise.all([this._checkLocalStorage('notNull'), this._strengthTest(password)])
+        .then(() => {
+          resolve(this._decrypt(password)) 
+        })
+        .catch((err) => {
+          reject(err)
+        })
       })
     }
     restoreAddress(passphrase, password){

@@ -361,7 +361,7 @@
         var aesCtr = new eth.aes.ModeOfOperation.ctr(shaPassword, new eth.aes.Counter(5));
         var decryptedBytes = aesCtr.decrypt(encryptedBytes);
         var decryptedText = eth.aes.utils.utf8.fromBytes(decryptedBytes);
-        if(eth.bip39.validateMnemonic(mnemonic)){
+        if(eth.bip39.validateMnemonic(decryptedText)){
           resolve(decryptedText);
         } else {
           reject(Error('Invalid Password'))

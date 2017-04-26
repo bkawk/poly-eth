@@ -116,8 +116,8 @@
           return this._signEthTransaction(rawTx, vaultPassphrase)
         })
         .then((signedTx) => {
-          resolve(this._sendEtherScanTransaction(signedTx))
-          //resolve(this._sendEthTransaction(signedTx))
+          //resolve(this._sendEtherScanTransaction(signedTx))
+          resolve(this._sendEthTransaction(signedTx))
         })
         .catch((err) => {
           reject(err)
@@ -182,10 +182,9 @@
         this._gethConnect()
         this.web3.eth.sendRawTransaction(`0x${signedTx.toString('hex')}`, function(err, hash) {
           if (!err){
-            console.log(hash)
             resolve(hash)
           } else {
-            reject(Error(err))
+            resolve({status: 'error', display: 'Insufficient funds'});
           }    
         });
       })
@@ -195,7 +194,7 @@
           this._gethConnect()
           this.web3.eth.getGasPrice((error, gasPrice) => {
             if(!error){
-            resolve(gasPrice.toString(10))
+              resolve(gasPrice.toString(10))
             } else {
               reject(Error("Could not get gas price"))
             }

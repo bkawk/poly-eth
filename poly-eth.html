@@ -223,8 +223,11 @@
           if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
             if (xmlhttp.status == 200) {
               var recipt = JSON.parse(xmlhttp.responseText);
-              console.log(recipt)
-              resolve(recipt);
+              if(recipt.error){
+                resolve({status: 'error', display: 'Insufficient funds'});
+              } else {
+                resolve(recipt.result);
+              }
             } else {
               reject(Error('No response from Ether Scan'))
             }

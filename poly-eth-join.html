@@ -1,0 +1,39 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="poly-eth.html">
+
+<!--
+`poly-eth-join`
+
+@demo demo/join.html
+-->
+
+<dom-module id="poly-eth-join-join">
+<template>
+    <style>
+    :host {
+        display: block;
+    }
+    </style>
+    <poly-eth id="eth"></poly-eth>
+    <paper-input label="Strong Password" type="password"></paper-input>
+    <paper-input label="Confirm Password" type="password"></paper-input>
+</template>
+
+<script>
+    class PolyEthJoin extends Polymer.Element {
+    static get is() { return 'poly-eth-join'; }
+    static get properties() {
+        return {
+
+        };
+    }
+
+    connectedCallback(){
+    super.connectedCallback();
+    }
+    
+
+    } window.customElements.define(PolyEthJoin.is, PolyEthJoin);
+</script>
+</dom-module>

@@ -1,5 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
 <link rel="import" href="poly-eth.html">
 
 <!--
@@ -8,16 +8,24 @@
 @demo demo/join.html
 -->
 
-<dom-module id="poly-eth-join-join">
+<dom-module id="poly-eth-join">
 <template>
     <style>
     :host {
         display: block;
     }
+    .input {
+        --paper-input-container-underline: { border: var(--poly-eth-join-undrline-thickness) solid var(--poly-eth-join-undrline-color);}
+        --paper-input-container-underline-focus: { color: lime }
+        --paper-input-container-input-color: var(--poly-eth-join-input-color);
+        --paper-input-container-input: { font-size: var(--poly-eth-join-font-size) }
+        --paper-input-container-color: var(--poly-eth-join-color);
+        --paper-input-container-focus-color: var(--poly-eth-join-focus-color);
+    }
     </style>
     <poly-eth id="eth"></poly-eth>
-    <paper-input label="Strong Password" type="password"></paper-input>
-    <paper-input label="Confirm Password" type="password"></paper-input>
+    <paper-input class="input" label="Strong Password" type="password"></paper-input>
+    <paper-input class="input" label="Confirm Password" type="password"></paper-input>
 </template>
 
 <script>

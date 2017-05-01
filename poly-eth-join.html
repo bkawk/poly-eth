@@ -23,7 +23,11 @@
         --paper-input-container-focus-color: var(--poly-eth-join-focus-color);
     }
     </style>
-    <poly-eth id="eth"></poly-eth>
+    <poly-eth 
+        id="eth"
+        ether-scan-api = this.etherScanApi
+        http-provider =  this.httpProvider>
+    </poly-eth>
     <paper-input class="input" label="Strong Password" type="password"></paper-input>
     <paper-input class="input" label="Confirm Password" type="password"></paper-input>
 </template>
@@ -33,7 +37,12 @@
     static get is() { return 'poly-eth-join'; }
     static get properties() {
         return {
-
+            etherScanApi:{
+                type: String
+            },
+            httpProvider:{
+                type: String
+            }
         };
     }
 

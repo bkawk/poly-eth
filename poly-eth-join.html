@@ -23,7 +23,7 @@
         --paper-input-container-focus-color: var(--poly-eth-join-focus-color);
     }
     .error {
-        size: var(--poly-eth-join-error-size);
+        font-size: var(--poly-eth-join-error-size);
         color: var(--poly-eth-join-error-color)
     }
     </style>
@@ -43,7 +43,7 @@
     static get is() { return 'poly-eth-join'; }
     static get properties() {
         return {
-            password:{
+            confirmedPassword:{
                 type: String,
                 notify: true
             }
@@ -72,8 +72,8 @@
                 return this.$.eth.getPassphrase(this.password)   
             })
             .then((data) => {
+                this.confirmedPassword = this.password
                 this.password = this.confirm = null
-                this.passphrase = data
             })
             .catch((err) => {
                 console.log(err)

@@ -22,14 +22,20 @@
         --paper-input-container-color: var(--poly-eth-join-color);
         --paper-input-container-focus-color: var(--poly-eth-join-focus-color);
     }
+    .error {
+        size: var(--poly-eth-join-error-size);
+        color: var(--poly-eth-join-error-color)
+    }
     </style>
-    <poly-eth 
-        id="eth"
-        ether-scan-api = this.etherScanApi
-        http-provider =  this.httpProvider>
-    </poly-eth>
-    <paper-input class="input" label="Strong Password" type="password"></paper-input>
-    <paper-input class="input" label="Confirm Password" type="password"></paper-input>
+    <poly-eth id="eth"></poly-eth>
+    <paper-input class="input" label="Strong password" type="password" on-keyup="_validate" value="{{password}}"></paper-input>
+    <p class="error">{{error}}</p>
+    <template is="dom-if" if="{{showConfirm}}">
+        <paper-input class="input" label="Confirm password" type="password" on-keyup="_confirm" value="{{confirm}}"></paper-input>
+        <p class="error">{{reminder}}</p>
+    </template>
+
+
 </template>
 
 <script>
@@ -37,17 +43,47 @@
     static get is() { return 'poly-eth-join'; }
     static get properties() {
         return {
-            etherScanApi:{
-                type: String
-            },
-            httpProvider:{
-                type: String
+            password:{
+                type: String,
+                notify: true
             }
         };
     }
 
     connectedCallback(){
     super.connectedCallback();
+    }
+
+    _validate(e){
+        this.error = null
+        this.$.eth._strengthTest(this.password)
+        .then((data) => {
+            this.showConfirm = true
+        })
+        .catch((err) => {
+            this.error = err[err.length-1]
+            this.showConfirm = false
+        })
+    }
+    _confirm(e){
+        if(this.confirm == this.password){
+            this.$.eth.makeAddress(this.password)          
+            .then((data) => {
+                return this.$.eth.getPassphrase(this.password)   
+            })
+            .then((data) => {
+                this.password = this.confirm = null
+                this.passphrase = data
+            })
+            .catch((err) => {
+                console.log(err)
+                this.error = err
+            })
+        } else {
+            if(this.confirm.length > 9){
+                this.reminder = 'The passwords must match exactly'
+            }
+        }
     }
     
 

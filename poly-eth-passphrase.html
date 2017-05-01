@@ -1,0 +1,63 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="poly-eth.html">
+
+<!--
+`poly-eth-passphrase`
+
+@demo demo/join.html
+-->
+
+<dom-module id="poly-eth-passphrase">
+<template>
+    <style>
+    :host {
+        display: block;
+    }
+    .passphrase {
+        font-size: var(--poly-eth-passphrase-size);
+        color: var(--poly-eth-passphrase-color);
+        color: var(--poly-eth-passphrase-qr-color);
+    }
+
+    </style>
+    <poly-eth id="eth"></poly-eth>
+    <p class="passphrase">{{passphrase}}</p>
+
+</template>
+
+<script>
+    class PolyEthPassphrase extends Polymer.Element {
+    
+    static get is() { 
+        return 'poly-eth-passphrase'; 
+    }
+
+    static get properties() {
+        return {
+            confirmedPassword:{
+                type: String,
+                observer: '_passphrase'
+            }
+        };
+    }
+
+
+    _passphrase(){
+        this.passphrase = null
+        if(this.confirmedPassword != undefined && this.confirmedPassword){
+            this.$.eth.getPassphrase(this.confirmedPassword)
+            .then((data) => {
+                console.log(data);
+                this.passphrase = data
+            })
+            .catch((err) => {
+                console.log(err);
+                this.passphrase = "Try again"
+            })
+        }
+    }
+
+    } window.customElements.define(PolyEthPassphrase.is, PolyEthPassphrase);
+</script>
+</dom-module>

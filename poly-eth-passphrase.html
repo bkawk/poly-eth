@@ -18,7 +18,6 @@
     .passphrase {
         font-size: var(--poly-eth-passphrase-size);
         color: var(--poly-eth-passphrase-color);
-        color: var(--poly-eth-passphrase-qr-color);
     }
 
     </style>
@@ -26,9 +25,10 @@
     <p class="passphrase">{{passphrase}}</p>
     <qrcode-generator 
         data$="{{passphrase}}" 
-        width="260" 
-        height="260" 
-        color="#fff">
+        width="290" 
+        height="290" 
+        color="#fff"
+        background="transparent">
     </qrcode-generator>
 </template>
 

@@ -8,7 +8,7 @@
 @demo demo/join.html
 -->
 
-<dom-module id="poly-eth-join">
+<dom-module id="poly-eth-login">
 <template>
     <style>
     :host {
@@ -28,14 +28,14 @@
     }
     </style>
     <poly-eth id="eth"></poly-eth>
-    <paper-input class="input" label="Strong password" type="password" on-keyup="_validate" value="{{password}}"></paper-input>
+    <paper-input class="input" label="Password" type="password" on-keyup="login" value="{{password}}"></paper-input>
     <p class="error">{{error}}</p>
 
 </template>
 
 <script>
-    class PolyEthJoin extends Polymer.Element {
-    static get is() { return 'poly-eth-join'; }
+    class PolyEthLogin extends Polymer.Element {
+    static get is() { return 'poly-eth-login'; }
     static get properties() {
         return {
             confirmedPassword:{
@@ -49,39 +49,19 @@
         super.connectedCallback();
     }
 
-    _validate(e){
+    login(e){
         this.error = null
-        this.$.eth._strengthTest(this.password)
-        .then((data) => {
-            this.showConfirm = true
-        })
-        .catch((err) => {
-            this.error = err[err.length-1]
-            this.showConfirm = false
-        })
-    }
-    _confirm(e){
-        if(this.confirm && this.confirm == this.password){
-            this.$.eth.makeAddress(this.password)          
-            .then((data) => {
-                return this.$.eth.getPassphrase(this.password)   
-            })
+        if(e.code != undefined && e.code == 'Enter' && this.password){
+            this.$.eth.getPassphrase(this.password)
             .then((data) => {
                 this.confirmedPassword = this.password
-                this.password = this.confirm = null
             })
             .catch((err) => {
-                console.log(err)
-                this.error = err
+                this.error = "Try again"
             })
-        } else {
-            if(this.confirm && this.confirm.length > 9){
-                this.reminder = 'The passwords must match exactly'
-            }
         }
     }
-    
 
-    } window.customElements.define(PolyEthJoin.is, PolyEthJoin);
+    } window.customElements.define(PolyEthLogin.is, PolyEthLogin);
 </script>
 </dom-module>

@@ -19,17 +19,25 @@
         font-size: var(--poly-eth-passphrase-size);
         color: var(--poly-eth-passphrase-color);
     }
+    .container{
+        text-align: center;
+    }
+    qrcode-generator {
+        margin: 0 auto;
+    }
 
     </style>
     <poly-eth id="eth"></poly-eth>
-    <p class="passphrase">{{passphrase}}</p>
-    <qrcode-generator 
-        data$="{{passphrase}}" 
-        width="200" 
-        height="200" 
-        color="transparent"
-        background="white">
-    </qrcode-generator>
+    <div class="container">
+        <p class="passphrase">{{passphrase}}</p>
+        <qrcode-generator 
+            data$="{{passphrase}}" 
+            width="200" 
+            height="200" 
+            color="transparent"
+            background="white">
+        </qrcode-generator>
+    </div>
 </template>
 
 <script>

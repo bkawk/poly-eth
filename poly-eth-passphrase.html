@@ -32,9 +32,9 @@
         <p class="passphrase">{{passphrase}}</p>
         <qrcode-generator 
             data$="{{passphrase}}" 
-            width="200" 
-            height="200" 
-            color="transparent"
+            width$={{qrWidth}}
+            height$={{qrHeight}}
+            color$={{darkColor}}
             background="white">
         </qrcode-generator>
     </div>
@@ -52,7 +52,20 @@
             confirmedPassword:{
                 type: String,
                 observer: '_passphrase'
+            },
+            qrWidth:{
+                type: Number,
+                value: 200
+            },
+            qrHeight:{
+                type: Number,
+                value: 200
+            },
+            darkColor:{
+                type: String,
+                value: 'black'
             }
+
         };
     }
 

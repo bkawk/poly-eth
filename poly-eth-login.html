@@ -30,11 +30,6 @@
     <poly-eth id="eth"></poly-eth>
     <paper-input class="input" label="Strong password" type="password" on-keyup="_validate" value="{{password}}"></paper-input>
     <p class="error">{{error}}</p>
-    <template is="dom-if" if="{{showConfirm}}">
-        <paper-input class="input" label="Confirm password" type="password" on-keyup="_confirm" value="{{confirm}}"></paper-input>
-        <p class="error">{{reminder}}</p>
-    </template>
-
 
 </template>
 

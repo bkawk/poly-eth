@@ -5,7 +5,8 @@
     "polymer": "Polymer/polymer#^2.0.0-rc.2",
     "web3": "^0.18.4",
     "eth-util-browserified": "https://github.com/bkawk/eth-util-browserified.git",
-    "paper-input": "2.0-preview"
+    "paper-input": "2.0-preview",
+    "qrcode-generator": "https://github.com/bkawk/qrcode-generator.git"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#2.0-preview",

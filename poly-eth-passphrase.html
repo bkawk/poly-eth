@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/qrcode-generator/qrcode-generator.html">
 <link rel="import" href="poly-eth.html">
 
 <!--
@@ -23,7 +24,12 @@
     </style>
     <poly-eth id="eth"></poly-eth>
     <p class="passphrase">{{passphrase}}</p>
-
+    <qrcode-generator 
+        data$="{{passphrase}}" 
+        width="260" 
+        height="260" 
+        color="#fff">
+    </qrcode-generator>
 </template>
 
 <script>

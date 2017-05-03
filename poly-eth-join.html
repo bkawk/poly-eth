@@ -1,5 +1,8 @@
 <link rel="import" href="../polymer/polymer-element.html">
-<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<!--<link rel="import" href="../polymer/lib/elements/dom-if.html">-->
+<!--<link rel="import" href="../polymer/lib/elements/dom-repeat.html">-->
+
+<link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="poly-eth.html">
 
 <!--
@@ -39,6 +42,7 @@
 </template>
 
 <script>
+    /** @polymerElement */
     class PolyEthJoin extends Polymer.Element {
     static get is() { return 'poly-eth-join'; }
     static get properties() {

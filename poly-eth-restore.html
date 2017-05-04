@@ -1,0 +1,65 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<!--<link rel="import" href="../polymer/lib/elements/dom-if.html">-->
+<!--<link rel="import" href="../polymer/lib/elements/dom-repeat.html">-->
+
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="poly-eth.html">
+
+<!--
+`poly-eth-passphrase`
+
+@demo demo/join.html
+-->
+
+<dom-module id="poly-eth-restore">
+<template>
+    <style>
+    :host {
+        display: block;
+    }
+    .passphrase {
+        font-size: 10px;
+        color: white;
+        font-weight: 700;
+        padding-bottom: 20px;
+    }
+    .title{
+        font-size: 20px ;
+        color: var(--poly-eth-passphrase-color); 
+    }
+    .container{
+        text-align: center;
+    }
+    .input {
+        --paper-input-container-underline: { border: var(--poly-eth-undrline-thickness) solid var(--poly-eth-undrline-color);}
+        --paper-input-container-underline-focus: { color: lime }
+        --paper-input-container-input-color: var(--poly-eth-input-color);
+        --paper-input-container-input: { font-size: var(--poly-eth-font-size) }
+        --paper-input-container-color: var(--poly-eth-color);
+        --paper-input-container-focus-color: var(--poly-eth-focus-color);
+    }
+    </style>
+
+<paper-input class="input" label="Passphrase" value="{{passphrase}}"></paper-input>
+<paper-input class="input" label="Strong password" type="password" value="{{password}}"></paper-input>
+<paper-input class="input" label="Confirm password" type="password" value="{{confirm}}"></paper-input>
+
+</template>
+
+<script>
+    class PolyEthRestore extends Polymer.Element {
+    
+    static get is() { 
+        return 'poly-eth-restore'; 
+    }
+
+    static get properties() {
+        return {
+
+        };
+    }
+
+
+    } window.customElements.define(PolyEthRestore.is, PolyEthRestore);
+</script>
+</dom-module>

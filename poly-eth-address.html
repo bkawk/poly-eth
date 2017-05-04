@@ -1,0 +1,86 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<!--<link rel="import" href="../polymer/lib/elements/dom-if.html">-->
+<!--<link rel="import" href="../polymer/lib/elements/dom-repeat.html">-->
+
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../qrcode-generator/qrcode-generator.html">
+<link rel="import" href="poly-eth.html">
+
+<!--
+`poly-eth-passphrase`
+
+@demo demo/join.html
+-->
+
+<dom-module id="poly-eth-address">
+<template>
+    <style>
+    :host {
+        display: block;
+    }
+    .passphrase {
+        font-size: var(--poly-eth-passphrase-size);
+        color: var(--poly-eth-passphrase-color);
+        padding-bottom: 20px;
+    }
+    .container{
+        text-align: center;
+    }
+    qrcode-generator {
+        margin: 0 auto;
+    }
+
+    </style>
+    <poly-eth id="eth"></poly-eth>
+    <div class="container">
+        <p class="passphrase">{{passphrase}}</p>
+        <qrcode-generator 
+            data$="{{passphrase}}" 
+            width$={{qrWidth}}
+            height$={{qrHeight}}
+            color$={{darkColor}}
+            background="white">
+        </qrcode-generator>
+    </div>
+</template>
+
+<script>
+    class PolyEthAddress extends Polymer.Element {
+    
+    static get is() { 
+        return 'poly-eth-address'; 
+    }
+
+    static get properties() {
+        return {
+            confirmedPassword:{
+                type: String,
+                observer: '_passphrase'
+            },
+            qrWidth:{
+                type: Number,
+                value: 200
+            },
+            qrHeight:{
+                type: Number,
+                value: 200
+            },
+            darkColor:{
+                type: String,
+                value: 'black'
+            }
+
+        };
+    }
+
+
+    _passphrase(){
+        this.passphrase = null
+        if(this.confirmedPassword != undefined && this.confirmedPassword){
+            this.passphrase = data
+        }
+    }
+
+    } window.customElements.define(PolyEthAddress.is, PolyEthAddress);
+</script>
+</dom-module>

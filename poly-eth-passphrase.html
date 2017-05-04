@@ -79,11 +79,9 @@
         if(this.confirmedPassword != undefined && this.confirmedPassword){
             this.$.eth.getPassphrase(this.confirmedPassword)
             .then((data) => {
-                console.log(data);
                 this.passphrase = data
             })
             .catch((err) => {
-                console.log(err);
                 this.passphrase = "Try again"
             })
         }

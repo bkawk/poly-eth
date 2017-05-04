@@ -19,9 +19,14 @@
         display: block;
     }
     .passphrase {
-        font-size: var(--poly-eth-passphrase-size);
-        color: var(--poly-eth-passphrase-color);
+        font-size: 10px;
+        color: white;
+        font-weight: 700;
         padding-bottom: 20px;
+    }
+    .title{
+        font-size: 20px ;
+        color: var(--poly-eth-passphrase-color); 
     }
     .container{
         text-align: center;
@@ -33,6 +38,7 @@
     </style>
     <poly-eth id="eth"></poly-eth>
     <div class="container">
+        <p class="title">My Ethereum Address:</p>
         <p class="passphrase">{{passphrase}}</p>
         <qrcode-generator 
             data$="{{passphrase}}" 
@@ -77,7 +83,7 @@
     _passphrase(){
         this.passphrase = null
         if(this.confirmedPassword != undefined && this.confirmedPassword){
-            this.passphrase = data
+            this.passphrase = this.confirmedPassword 
         }
     }
 

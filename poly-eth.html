@@ -338,6 +338,15 @@
         resolve(`0x${eth.util.privateToAddress(eth.util.sha3(passphrase)).toString('hex')}`)
       })
     }
+    _checkPassphrase(mnemonic){
+      return new Promise((resolve, reject) => {
+        if(mnemonic){
+          resolve(eth.bip39.validateMnemonic(mnemonic))
+        } else {
+          reject(Error('No passphrase'))
+        }
+      })
+    }
     _passphrase(){
       return new Promise((resolve, reject) => {
         resolve(eth.bip39.generateMnemonic())

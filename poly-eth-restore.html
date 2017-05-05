@@ -38,14 +38,21 @@
         --paper-input-container-color: var(--poly-eth-color);
         --paper-input-container-focus-color: var(--poly-eth-focus-color);
     }
+    .password{
+        --paper-input-container-input: { font-size: var(--poly-eth-password-font-size) }
+    }
+    .error {
+        font-size: var(--poly-eth-error-size);
+        color: var(--poly-eth-error-color)
+    }
     </style>
     <poly-eth id="eth"></poly-eth>
     <paper-textarea class="input" label="Passphrase to restore" on-keyup="_passphrase" value="{{passphrase}}"></paper-textarea>
     <template is="dom-if" if="{{showPassword}}">
-        <paper-input class="input" label="Strong password" type="password" value="{{password}}" on-keyup="_validate"></paper-input>
+        <paper-input class="input password" label="Strong password" type="password" value="{{password}}" on-keyup="_validate"></paper-input>
     </template>
     <template is="dom-if" if="{{showConfirm}}">
-        <paper-input class="input" label="Confirm password" type="password" value="{{confirm}}"></paper-input>
+        <paper-input class="input password" label="Confirm password" type="password" value="{{confirm}}" on-keyup="_confirm"></paper-input>
     </template>
     <p class="error">{{error}}</p>
 
@@ -60,7 +67,10 @@
 
     static get properties() {
         return {
-
+            confirmedPassword:{
+                type: String,
+                notify: true
+            }
         };
     }
 

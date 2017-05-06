@@ -1,0 +1,54 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<!--<link rel="import" href="../polymer/lib/elements/dom-if.html">-->
+<!--<link rel="import" href="../polymer/lib/elements/dom-repeat.html">-->
+
+<link rel="import" href="poly-eth.html">
+
+<!--
+`poly-eth-passphrase`
+
+@demo demo/join.html
+-->
+
+<dom-module id="poly-eth-balance">
+<template>
+    <style>
+    :host {
+        display: block;
+    }
+    .container{
+        text-align: center;
+    }
+    </style>
+    <poly-eth id="eth"></poly-eth>
+    <div class="container">
+        <p class="balace">{{balance}}</p>
+    </div>
+</template>
+
+<script>
+    class PolyEthBalance extends Polymer.Element {
+    
+    static get is() { 
+        return 'poly-eth-balance'; 
+    }
+
+    static get properties() {
+        return {
+            address:{
+                type: String,
+                observer: '_address'
+            }
+        };
+    }
+
+
+    _address(){
+        if(this.address != undefined){
+            //getbalance
+        }
+    }
+
+    } window.customElements.define(PolyEthBalance.is, PolyEthBalance);
+</script>
+</dom-module>

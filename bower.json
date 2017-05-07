@@ -6,7 +6,8 @@
     "web3": "^0.18.4",
     "eth-util-browserified": "https://github.com/bkawk/eth-util-browserified.git",
     "paper-input": "2.0-preview",
-    "qrcode-generator": "https://github.com/bkawk/qrcode-generator.git"
+    "qrcode-generator": "https://github.com/bkawk/qrcode-generator.git",
+    "paper-button": "2.0-preview"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#2.0-preview",

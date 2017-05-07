@@ -3,6 +3,7 @@
 <!--<link rel="import" href="../polymer/lib/elements/dom-repeat.html">-->
 
 <link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="poly-eth.html">
 
 <!--
@@ -32,11 +33,12 @@
     </style>
     <poly-eth id="eth"></poly-eth>
     <paper-input class="input" label="Recipiens Address" on-keyup="login" value="{{address}}"></paper-input>
-    <paper-input class="input" label="Ether Amount" on-keyup="login" value="{{password}}"></paper-input>
-    
-    <paper-input class="input" label="Password" type="password" on-keyup="login" value="{{password}}"></paper-input>
-
+    <paper-input class="input" label="Ether Amount" on-keyup="login" value="{{amount}}"></paper-input>
+    <template is="dom-if" if="{{!confirmedPassword}}">
+        <paper-input class="input" label="Password" type="password" on-keyup="login" value="{{password}}"></paper-input>
+    </template>
     <p class="error">{{error}}</p>
+    <paper-button raised class="SendBtn">Send</paper-button>
 
 </template>
 

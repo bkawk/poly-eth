@@ -1,0 +1,78 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<!--<link rel="import" href="../polymer/lib/elements/dom-if.html">-->
+<!--<link rel="import" href="../polymer/lib/elements/dom-repeat.html">-->
+
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="poly-eth.html">
+
+<!--
+`poly-eth-join`
+
+@demo demo/join.html
+-->
+
+<dom-module id="poly-eth-send">
+<template>
+    <style>
+    :host {
+        display: block;
+    }
+    .input {
+        --paper-input-container-underline: { border: var(--poly-eth-undrline-thickness) solid var(--poly-eth-undrline-color);}
+        --paper-input-container-underline-focus: { color: lime }
+        --paper-input-container-input-color: var(--poly-eth-input-color);
+        --paper-input-container-input: { font-size: var(--poly-eth-font-size) }
+        --paper-input-container-color: var(--poly-eth-color);
+        --paper-input-container-focus-color: var(--poly-eth-focus-color);
+    }
+    .error {
+        font-size: var(--poly-eth-error-size);
+        color: var(--poly-eth-error-color)
+    }
+    </style>
+    <poly-eth id="eth"></poly-eth>
+    <paper-input class="input" label="Recipiens Address" on-keyup="login" value="{{address}}"></paper-input>
+    <paper-input class="input" label="Ether Amount" on-keyup="login" value="{{password}}"></paper-input>
+    
+    <paper-input class="input" label="Password" type="password" on-keyup="login" value="{{password}}"></paper-input>
+
+    <p class="error">{{error}}</p>
+
+</template>
+
+<script>
+    class PolyEthSend extends Polymer.Element {
+    static get is() { return 'poly-eth-send'; }
+    static get properties() {
+        return {
+            confirmedPassword:{
+                type: String,
+                notify: true
+            }
+        };
+    }
+
+    connectedCallback(){
+        super.connectedCallback();
+    }
+
+    clear(){
+        this.password = null
+    }
+
+    login(e){
+        this.error = null
+        if(e.keyCode === 13 && this.password){
+            this.$.eth.getPassphrase(this.password)
+            .then((data) => {
+                this.confirmedPassword = this.password
+            })
+            .catch((err) => {
+                this.error = "Try again"
+            })
+        }
+    }
+
+    } window.customElements.define(PolyEthSend.is, PolyEthSend);
+</script>
+</dom-module>

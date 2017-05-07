@@ -52,6 +52,10 @@
         super.connectedCallback();
     }
 
+    clear(){
+        this.password = null
+    }
+
     login(e){
         this.error = null
         if(e.keyCode === 13 && this.password){

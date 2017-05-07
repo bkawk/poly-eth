@@ -23,7 +23,7 @@
         color: var(--poly-eth-ether-value-color)
     }
     .ether-code {
-        font-size: var(--poly-eth-ether-cide-size);
+        font-size: var(--poly-eth-ether-code-size);
         font-weight: var(--poly-eth-ether-cide-weight);
         color: var(--poly-eth-ether-code-color)
     }
@@ -44,7 +44,7 @@
                 <div class="ether-value">{{ether}} <span class="ether-code">ETH</span></div>    
             </div>
             <div>
-                <div class="fiat-value">{{fiat}} <span class="fiat-value">{{currencyCode}}</span></div>
+                <div class="fiat-value">{{fiat}} <span class="fiat-code">{{currencyCode}}</span></div>
             </div>
     </template>
 </template>
@@ -87,8 +87,12 @@
 
     connectedCallback(){
         super.connectedCallback();
-        this.ether = JSON.parse(localStorage.getItem("balance")).ether
-        this.fiat = JSON.parse(localStorage.getItem("balance")).fiat
+        if(localStorage.getItem("balance")){
+            this.ether = JSON.parse(localStorage.getItem("balance")).ether
+            this.fiat = JSON.parse(localStorage.getItem("balance")).fiat
+        } else {
+            localStorage.setItem("balance", JSON.stringify({"ether": 0, "fiat": 0, "currencyCode": "USD"}));
+        }
         setInterval(()=>{ 
             if(this.address && this.currencyCode){
                 this._address()

@@ -104,8 +104,8 @@
         if(this.address != undefined && this.currencyCode != undefined){
             this.$.eth.addressBalance(this.address, this.currencyCode)
             .then((data) => {
-                this.ether = data.ether;
-                this.fiat = data.currencyValue;
+                this.ether = (data.ether.toFixed(8)*1).toString();
+                this.fiat = data.currencyValue.toFixed(2);
                 localStorage.setItem("balance", JSON.stringify({"ether": this.ether, "fiat": this.fiat, "currencyCode": this.currencyCode}));
             })
             .catch((err) => {

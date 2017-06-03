@@ -31,7 +31,7 @@
     }
     </style>
     <poly-eth id="eth"></poly-eth>
-    <paper-input class="input" label="Password" type="password" on-keyup="login" value="{{password}}"></paper-input>
+    <paper-input class="input" label="Password" type="password" on-keyup="_enter" value="{{password}}"></paper-input>
     <p class="error">{{error}}</p>
 
 </template>
@@ -56,9 +56,14 @@
         this.password = null
     }
 
-    login(e){
-        this.error = null
+    _enter(e){
         if(e.keyCode === 13 && this.password){
+            this.login()
+        }
+    }
+    login(){
+        this.error = null
+        if(this.password){
             this.$.eth.getPassphrase(this.password)
             .then((data) => {
                 this.confirmedPassword = this.password

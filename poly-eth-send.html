@@ -1,15 +1,10 @@
 <link rel="import" href="../polymer/polymer-element.html">
-<!--<link rel="import" href="../polymer/lib/elements/dom-if.html">-->
-<!--<link rel="import" href="../polymer/lib/elements/dom-repeat.html">-->
-
 <link rel="import" href="../paper-input/paper-input.html">
-<link rel="import" href="../paper-button/paper-button.html">
-<link rel="import" href="poly-eth.html">
 
 <!--
-`poly-eth-join`
+`poly-eth-send`
 
-@demo demo/join.html
+@demo demo/poly-eth-send.html
 -->
 
 <dom-module id="poly-eth-send">
@@ -31,14 +26,10 @@
         color: var(--poly-eth-error-color)
     }
     </style>
-    <poly-eth id="eth"></poly-eth>
-    <paper-input class="input" label="Recipiens Address" on-keyup="login" value="{{address}}"></paper-input>
-    <paper-input class="input" label="Ether Amount" on-keyup="login" value="{{amount}}"></paper-input>
-    <template is="dom-if" if="{{!confirmedPassword}}">
-        <paper-input class="input" label="Password" type="password" on-keyup="login" value="{{password}}"></paper-input>
-    </template>
+    <paper-input class="input" label="Recipiens Address" value="{{address}}"></paper-input>
+    <paper-input class="input" label="Ether Amount" value="{{amount}}"></paper-input>
     <p class="error">{{error}}</p>
-    <paper-button raised class="SendBtn">Send</paper-button>
+
 
 </template>
 
@@ -47,32 +38,15 @@
     static get is() { return 'poly-eth-send'; }
     static get properties() {
         return {
-            confirmedPassword:{
+            address:{
+                type: String,
+                notify: true
+            },
+            amount:{
                 type: String,
                 notify: true
             }
         };
-    }
-
-    connectedCallback(){
-        super.connectedCallback();
-    }
-
-    clear(){
-        this.password = null
-    }
-
-    login(e){
-        this.error = null
-        if(e.keyCode === 13 && this.password){
-            this.$.eth.getPassphrase(this.password)
-            .then((data) => {
-                this.confirmedPassword = this.password
-            })
-            .catch((err) => {
-                this.error = "Try again"
-            })
-        }
     }
 
     } window.customElements.define(PolyEthSend.is, PolyEthSend);

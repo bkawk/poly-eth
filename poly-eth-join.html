@@ -70,23 +70,26 @@
         })
     }
     _confirm(e){
-        if(this.confirm && this.confirm == this.password){
+        if(this.confirm && this.confirm.length > 9 && this.confirm != this.password){
+            this.reminder = 'The passwords must match exactly'
+        } else {
+            this.reminder = null
+        }
+        if(!localStorage.getItem("vault") && this.confirm && this.confirm == this.password){
             this.$.eth.makeAddress(this.password)          
             .then((data) => {
                 return this.$.eth.getPassphrase(this.password)   
             })
             .then((data) => {
                 this.confirmedPassword = this.password
-                this.password = this.confirm = null
             })
             .catch((err) => {
                 this.error = err
             })
-        } else {
-            if(this.confirm && this.confirm.length > 9){
-                this.reminder = 'The passwords must match exactly'
-            }
-        }
+        } 
+    }
+    save(){
+        console.log('SAVED')
     }
     
 
